@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Uploader</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+<h1>Upload a file</h1>
+<p>Then access it by calling http://localhost:port/file_name</p>
+
+<form action="" method="POST">
+    <label>Select File
+        <input type="file" id="fileControl">
+        <button type="button" id="uploadBtn">Upload file</button>
+    </label>
+</form>
+</body>
+
+<script>
+    function getBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+    }
+
+    window.onload = () => {
+        const fileInput = document.getElementById('fileControl');
+        const uploadBtn = document.getElementById('uploadBtn');
+
+        uploadBtn.addEventListener('click', async () => {
+            const files = fileInput.files;
+            if (files.length !== 1) {
+                alert('Please select a file!');
+                return;
+            }
+
+            const base64 = await getBase64(files[0]);
+            const fileName = files[0].name;
+            console.log(base64);
+
+            $.ajax({
+                type: 'POST',
+                url: '/',
+                contentType: 'application/json',
+                data: JSON.stringify({file: base64, fileName}),
+                success: function (data) {
+                    alert('File was uploaded!');
+                },
+                error: function () {
+                    alert('Error while uploading file!');
+                },
+                processData: false
+            });
+        });
+    };
+</script>
+</html>
