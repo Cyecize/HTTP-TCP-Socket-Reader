@@ -42,7 +42,7 @@ public class FileUtils {
     }
 
     public static void saveFile(String fileName, String base64) {
-        final String filePath = Constants.FILES_DIR + fileName;
+        final String filePath = Constants.FILES_CANONICAL_PATH + "uploaded/" + fileName;
         final File physicalFile = new File(filePath);
 
         try {

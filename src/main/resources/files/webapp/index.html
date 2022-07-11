@@ -42,7 +42,7 @@
 
             const base64 = await getBase64(files[0]);
             const fileName = files[0].name;
-            console.log(base64);
+            console.log(base64.length);
 
             $.ajax({
                 type: 'POST',
