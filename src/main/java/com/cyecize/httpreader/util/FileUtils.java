@@ -3,8 +3,6 @@ package com.cyecize.httpreader.util;
 import com.cyecize.httpreader.Constants;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,11 +38,7 @@ public class FileUtils {
     }
 
     public static InputStream getInputStream(String fileName) {
-        try {
-            return new FileInputStream(Constants.FILES_DIR + fileName);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        return Constants.class.getResourceAsStream(Constants.FILES_DIR + fileName);
     }
 
     public static void saveFile(String fileName, String base64) {
